@@ -1,0 +1,13 @@
+name: ServerManager
+version: '1.0.0'
+main: com.Flire2.ServerManager
+api-version: '1.21'
+load: STARTUP
+authors: [ Flire2 ]
+
+commands:
+  sm:
+    description: Open the Server Manager GUI
+    usage: /sm
+    permission: ServerManager.Commands.sm
+    permission-message: You do not have permission to use this command.
