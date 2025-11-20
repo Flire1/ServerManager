@@ -1,6 +1,7 @@
 package com.Flire2;
 
 import com.Flire2.Commands.ServerManagerCommand;
+import com.Flire2.GUI.ServerControlsGUI;
 import com.Flire2.GUI.ServerManagerGUI;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,6 +21,7 @@ public final class ServerManager extends JavaPlugin {
         getCommand("sm").setTabCompleter(new ServerManagerCommand());
 
         getServer().getPluginManager().registerEvents(new ServerManagerGUI(), this);
+        getServer().getPluginManager().registerEvents(new ServerControlsGUI(), this);
     }
 
     @Override
