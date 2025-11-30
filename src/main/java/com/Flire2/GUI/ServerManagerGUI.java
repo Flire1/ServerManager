@@ -22,13 +22,12 @@ public class ServerManagerGUI implements Listener {
         gui.setItem(8, GUICommon.createItem(Material.BARRIER, ChatColor.RED + "Close"));
 
         // Categories
-        gui.setItem(10, GUICommon.createItem(Material.LIGHT_GRAY_DYE, ChatColor.WHITE + "Server Controls", ChatColor.GRAY + "Stop, Reload, MOTD", "", ChatColor.GRAY + "> Click to open!"));
-        gui.setItem(11, GUICommon.createItem(Material.PLAYER_HEAD, ChatColor.WHITE + "Player Controls", ChatColor.GRAY + "Whitelist, PVP", "", ChatColor.GOLD + "> Under Development!"));
+        gui.setItem(10, GUICommon.createItem(Material.LIGHT_GRAY_DYE, ChatColor.WHITE + "Server Controls", ChatColor.GRAY + "Stop, Whitelist, MOTD", "", ChatColor.GRAY + "> Click to open!"));
+        gui.setItem(11, GUICommon.createItem(Material.PLAYER_HEAD, ChatColor.WHITE + "Player Controls", ChatColor.GRAY + "Global Player Controls, PVP", "", ChatColor.GOLD + "> Under Development!"));
         gui.setItem(12, GUICommon.createItem(Material.PAINTING, ChatColor.WHITE + "Display", ChatColor.GRAY + "Scoreboard, Announcements, Tablist", "", ChatColor.GOLD + "> Under Development!"));
         gui.setItem(13, GUICommon.createItem(Material.IRON_BARS, ChatColor.WHITE + "Security", ChatColor.GRAY + "Rules, Restrictions", "", ChatColor.GOLD + "> Under Development!"));
         gui.setItem(14, GUICommon.createItem(Material.EXPERIENCE_BOTTLE, ChatColor.WHITE + "Stats", ChatColor.GRAY + "TPS, RAM, Player Count", "", ChatColor.GOLD + "> Under Development!"));
         gui.setItem(15, GUICommon.createItem(Material.CHEST, ChatColor.WHITE + "Plugins", ChatColor.GRAY + "Plugin List + Controls", "", ChatColor.GOLD + "> Under Development!"));
-
 
         viewer.openInventory(gui);
     }
@@ -38,6 +37,8 @@ public class ServerManagerGUI implements Listener {
         if (!(e.getWhoClicked() instanceof Player)) return;
 
         Player clicker = (Player) e.getWhoClicked();
+
+        if (!e.getView().getTitle().equals(GUI_TITLE)) return;
 
         e.setCancelled(true);
 

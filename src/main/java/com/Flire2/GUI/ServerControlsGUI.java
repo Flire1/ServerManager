@@ -1,6 +1,8 @@
 package com.Flire2.GUI;
 
 import com.Flire2.GUICommon;
+import com.Flire2.ServerManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class ServerControlsGUI implements Listener {
 
@@ -24,8 +25,10 @@ public class ServerControlsGUI implements Listener {
         // Categories
         gui.setItem(10, GUICommon.createItem(Material.RED_CONCRETE, ChatColor.WHITE + "Stop Server", "", ChatColor.GRAY + "> Click to stop server!"));
         gui.setItem(11, GUICommon.createItem(Material.ORANGE_CONCRETE, ChatColor.WHITE + "Restart Server", "", ChatColor.GRAY + "> Click to restart server!"));
-        gui.setItem(12, GUICommon.createItem(Material.YELLOW_CONCRETE, ChatColor.WHITE + "Reload Server", "", ChatColor.GRAY + "> Click to reload server!"));
+        gui.setItem(12, GUICommon.createItem(Material.YELLOW_CONCRETE, ChatColor.WHITE + "Reload Server", ChatColor.GRAY + "Full", "", ChatColor.GRAY + "> Click to reload server!"));
         gui.setItem(13, GUICommon.createItem(Material.LECTERN, ChatColor.WHITE + "Save Server", "", ChatColor.GRAY + "> Click to save server!"));
+        gui.setItem(14, GUICommon.createItem(Material.PINK_CONCRETE, ChatColor.WHITE + "Graceful Shutdown Server", "", ChatColor.GRAY + "> Click to shutdown server!"));
+        gui.setItem(15, GUICommon.createItem(Material.BLACK_CONCRETE, ChatColor.WHITE + "Panic / Server Lockdown", ChatColor.GRAY + "Kicks all non op players.", ChatColor.GRAY +  "Stops players from joining.", ChatColor.GRAY +  "Changes MOTD", "", ChatColor.GRAY + "> Click to lockdown server!"));
 
         viewer.openInventory(gui);
     }
@@ -57,7 +60,6 @@ public class ServerControlsGUI implements Listener {
         if (slot == 11) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
             clicker.playSound(clicker.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
-
         }
 
         if (slot == 12) {
@@ -68,6 +70,26 @@ public class ServerControlsGUI implements Listener {
 
         if (slot == 13) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
+            clicker.playSound(clicker.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+        }
+
+        if (slot == 14) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
+            Bukkit.getOnlinePlayers().forEach(p -> p.kickPlayer(ChatColor.RED + "Server is shutting down..."));
+            Bukkit.shutdown();
+            clicker.playSound(clicker.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+        }
+
+        if (slot == 15) {
+            Bukkit.getServer().setMotd(ChatColor.RED + "⚠️ SERVER LOCKDOWN ACTIVE ⚠️");
+
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (!p.isOp()) {
+                    p.kick(Component.text("⚠️ Server is under lockdown."));
+                }
+            }
+
+            Bukkit.getServer().setWhitelist(true);
             clicker.playSound(clicker.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         }
     }
